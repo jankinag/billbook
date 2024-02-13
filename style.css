@@ -1,0 +1,67 @@
+body {
+    background: linear-gradient(to bottom, #FFD700, #FFA500); /* Gradient background with gold to orange colors */
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #8B0000; /* Dark red heading */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    background-color: #FFF8DC; /* Cornsilk background color */
+    border: 1px solid #FFD700; /* Gold border */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Soft shadow */
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: calc(100% - 22px); /* Adjusted width */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="submit"],
+input[type="button"] {
+    background: linear-gradient(to bottom right, #FF4500, #FF6347); /* Gradient background for buttons with orange to coral colors */
+    color: #fff; /* White text */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background: linear-gradient(to bottom right, #FF6347, #FF4500); /* Gradient background on hover with coral to orange colors */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th {
+    background-color: #FFD700; /* Gold table header background */
+    color: #8B0000; /* Dark red text */
+    padding: 8px;
+}
+
+tr:hover {
+    background-color: #FFFACD; /* Lemon chiffon on hover */
+}
+
+.search-bar {
+    margin-top: 20px;
+    text-align: center;
+}

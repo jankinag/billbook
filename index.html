@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Bill Book</title>
+    <style>
+        /* Your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2; /* Light grey background */
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #28a745; /* Green heading */
+            text-align: center;
+        }
+        form {
+            background-color: #fff;
+            border: 1px solid #e0e0e0; /* Light grey border */
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"],
+        input[type="button"] {
+            background-color: #28a745; /* Green submit button */
+            color: #fff; /* White text */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover,
+        input[type="button"]:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th {
+            background-color: #e0e0e0; /* Light grey table header */
+            color: #444; /* Darker text */
+        }
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+        .search-bar {
+            margin-top: 20px;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <h1>Virtual Bill Book</h1>
+    <form id="billForm">
+        <input type="text" id="itemName" placeholder="Item Name" required><br>
+        <input type="number" id="itemQuantity" placeholder="Quantity" required><br>
+        <input type="number" id="totalCost" placeholder="Total Cost" required><br>
+        <input type="button" value="Add Product" onclick="addItem()">
+    </form>
+    <div id="billList"></div>
+    <div id="totalBill"></div>
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search...">
+        <button onclick="searchItem()">Search</button>
+    </div>
+
+    <script>
+        // Your JavaScript code here
+        let billItems = [];
+
+        function addItem() {
+            const itemName = document.getElementById("itemName").value;
+            const itemQuantity = parseInt(document.getElementById("itemQuantity").value);
+            const totalCost = parseFloat(document.getElementById("totalCost").value);
+
+            billItems.push({ name: itemName, quantity: itemQuantity, totalCost: totalCost });
+
+            clearInputs();
+            renderBillList();
+        }
+
+        function clearInputs() {
+            document.getElementById("itemName").value = "";
+            document.getElementById("itemQuantity").value = "";
+            document.getElementById("totalCost").value = "";
+        }
+
+        function renderBillList() {
+            let billHtml = "<table><tr><th>Item Name</th><th>Quantity</th><th>Total Cost</th></tr>";
+            let totalCP = 0;
+
+            for (let item of billItems) {
+                billHtml += `<tr><td>${item.name}</td><td>${item.quantity}</td><td>${item.totalCost}</td></tr>`;
+                totalCP += item.totalCost;
+            }
+
+            billHtml += "</table>";
+            document.getElementById("billList").innerHTML = billHtml;
+            document.getElementById("totalBill").innerHTML = `Total CP: ${totalCP}`;
+        }
+
+        function searchItem() {
+            const searchInput = document.getElementById("searchInput").value.toLowerCase();
+
+            const foundItems = billItems.filter(item => item.name.toLowerCase().includes(searchInput));
+
+            if (foundItems.length > 0) {
+                let searchResult = "<table><tr><th>Item Name</th><th>Quantity</th><th>Total Cost</th></tr>";
+
+                for (let item of foundItems) {
+                    searchResult += `<tr><td>${item.name}</td><td>${item.quantity}</td><td>${item.totalCost}</td></tr>`;
+                }
+
+                searchResult += "</table>";
+                document.getElementById("billList").innerHTML = searchResult;
+            } else {
+                document.getElementById("billList").innerHTML = "No items found.";
+            }
+        }
+        
+        function saveAsJpeg() {
+            const billListDiv = document.getElementById("billList");
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d");
+
+            canvas.width = billListDiv.offsetWidth;
+            canvas.height = billListDiv.offsetHeight;
+
+            context.fillStyle = "#fff"; 
+            context.fillRect(0, 0, canvas.width, canvas.height); 
+            context.drawImage(billListDiv, 0, 0); 
+
+            const link = document.createElement("a");
+            link.href = canvas.toDataURL("image/jpeg");
+            link.download = "bill.jpg";
+            link.click();
+        }
+    </script>
+    <button onclick="saveAsJpeg()">Save Bill as JPEG</button>
+</body>
+</html>
